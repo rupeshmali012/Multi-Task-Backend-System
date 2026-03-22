@@ -21,6 +21,8 @@ Data Integrity: Used Serializers to validate incoming data and convert complex m
 
 Outcome: A robust backend capable of handling multiple users and organized content delivery.
 
+screenshots/Task 1 (Blog Backend API).png
+
 ## Task 2: REAL-TIME CHAT SERVER
 Objective: To enable instantaneous, bi-directional communication between users.
 
