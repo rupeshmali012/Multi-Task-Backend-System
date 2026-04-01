@@ -1,0 +1,52 @@
+import numpy as np
+import time
+import itertools
+
+# a. Define mathematical function (Sum of Squares)
+def sum_of_squares(params):
+    return np.sum(np.array(params)**2)
+
+# b. Random Search Implementation
+def random_search(objective_function, search_space, n_iterations, minimize=True):
+    best_value = float('inf') if minimize else float('-inf')
+    best_params = None
+    for _ in range(n_iterations):
+        current_params = [np.random.uniform(low, high) for low, high in search_space]
+        current_value = objective_function(current_params)
+        if (minimize and current_value < best_value) or (not minimize and current_value > best_value):
+            best_value = current_value
+            best_params = current_params
+    return best_value, best_params
+
+# c. Stochastic Search Implementation (Random walk with step size)
+def stochastic_search(objective_function, search_space, n_iterations, step_size, minimize=True):
+    best_params = [np.random.uniform(low, high) for low, high in search_space]
+    best_value = objective_function(best_params)
+    for _ in range(n_iterations):
+        candidate_params = [np.clip(best_params[i] + np.random.uniform(-step_size, step_size), 
+                            search_space[i][0], search_space[i][1]) for i in range(len(search_space))]
+        candidate_value = objective_function(candidate_params)
+        if (minimize and candidate_value < best_value) or (not minimize and candidate_value > best_value):
+            best_value = candidate_value
+            best_params = candidate_params
+    return best_value, best_params
+
+# d. Brute Force Approach
+def brute_force_search(objective_function, search_space, grid_points_per_dimension):
+    dimension_grids = [np.linspace(low, high, grid_points_per_dimension) for low, high in search_space]
+    best_value = float('inf')
+    best_params = None
+    for current_params in itertools.product(*dimension_grids):
+        current_value = objective_function(list(current_params))
+        if current_value < best_value:
+            best_value = current_value
+            best_params = list(current_params)
+    return best_value, best_params
+
+# Execution & Comparison
+search_space = [(-5, 5), (-5, 5), (-5, 5)]
+n_iterations = 1000
+grid_points = 50 # 50^3 = 125,000 evaluations
+
+# Run and Time comparisons
+# [Note: Insert your specific output values here from the terminal]
